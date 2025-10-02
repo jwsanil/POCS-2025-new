@@ -21,16 +21,16 @@ spec:
             - name: config-volume
               mountPath: /config/application.properties
               subPath: application.properties
-      env:
-        - name: SHARED_TOKEN
-          valueFrom:
-            secretKeyRef:
-              name: customer-payment-secret
-              key: PAYMENT_TOKEN
+          env:
+            - name: SHARED_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: customer-payment-secret
+                  key: PAYMENT_TOKEN
       volumes:
-        - name: config-volume
-          configMap:
-            name: payment-service-config
+            - name: config-volume
+              configMap:
+                name: payment-service-config
 ---
 apiVersion: v1
 kind: Service
