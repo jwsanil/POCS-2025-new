@@ -21,6 +21,12 @@ spec:
             - name: config-volume
               mountPath: /config/application.properties
               subPath: application.properties
+          env:
+                - name: API_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: customer-payment-secret
+                      key: CUSTOMER_API_KEY
       volumes:
         - name: config-volume
           configMap:

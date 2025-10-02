@@ -17,6 +17,13 @@ spec:
           image: payment-service:1.0
           ports:
             - containerPort: 8083
+
+          env:
+            - name: SHARED_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: customer-payment-secret
+                  key: PAYMENT_TOKEN
 ---
 apiVersion: v1
 kind: Service

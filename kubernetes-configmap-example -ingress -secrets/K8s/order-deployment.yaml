@@ -21,6 +21,18 @@ spec:
             - name: config-volume
               mountPath: /config/application.properties
               subPath: application.properties
+          env:
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: order-service-secret
+                  key: DB_USERNAME
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: order-service-secret
+                  key: DB_PASSWORD
+
       volumes:
         - name: config-volume
           configMap:

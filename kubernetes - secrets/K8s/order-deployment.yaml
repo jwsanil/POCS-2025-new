@@ -17,6 +17,17 @@ spec:
           image: order-service:1.0
           ports:
             - containerPort: 8081
+          env:
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: order-service-secret
+                  key: DB_USERNAME
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: order-service-secret
+                  key: DB_PASSWORD
 ---
 apiVersion: v1
 kind: Service

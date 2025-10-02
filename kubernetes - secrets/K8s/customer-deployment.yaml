@@ -17,6 +17,13 @@ spec:
           image: customer-service:1.0
           ports:
             - containerPort: 8082
+
+          env:
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: customer-payment-secret
+                  key: CUSTOMER_API_KEY
 ---
 apiVersion: v1
 kind: Service
