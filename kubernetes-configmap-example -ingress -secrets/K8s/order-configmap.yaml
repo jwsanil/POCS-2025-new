@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: order-service-config
+data:
+  application.properties: |
+    server.port=8084
+    spring.application.name=order-service
