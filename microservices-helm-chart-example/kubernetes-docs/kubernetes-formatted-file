@@ -99,3 +99,9 @@ kubectl get svc microservices-test-payment-service -o=jsonpath="{.spec.ports[0].
 curl http://127.0.0.1:30092/customer
 curl http://127.0.0.1:30091/order
 curl http://127.0.0.1:30093/payment
+
+
+
+curl http://microservices-test.localhost/order
+curl http://microservices-test.localhost/customer
+curl http://microservices-test.localhost/payment

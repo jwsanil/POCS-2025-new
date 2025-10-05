@@ -272,6 +272,9 @@ curl http://127.0.0.1:30091/order
 curl http://127.0.0.1:30093/payment
 
 
+curl http://microservices-test.localhost/order
+curl http://microservices-test.localhost/customer
+curl http://microservices-test.localhost/payment
 
 
 
