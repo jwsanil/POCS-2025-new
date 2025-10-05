@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-payment-service
+spec:
+  replicas: {{ .Values.paymentService.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-payment-service
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-payment-service
+    spec:
+      containers:
+        - name: payment-service
+          image: {{ .Values.paymentService.image }}
+          ports:
+            - containerPort: {{ .Values.paymentService.port }}
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.paymentService.configMapName }}
+          env:
+            - name: SHARED_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-customer-payment-secret
+                  key: PAYMENT_TOKEN

@@ -1,0 +1,24 @@
+customerService:
+  image: customer-service:latest
+  port: 8085
+  nodePort: 30082
+  replicas: 1
+  apiKey: cust-api-key-default
+  configMapName: customer-service-config
+
+orderService:
+  image: order-service:latest
+  port: 8084
+  nodePort: 30081
+  replicas: 1
+  dbUsername: user
+  dbPassword: pass
+  configMapName: order-service-config
+
+paymentService:
+  image: payment-service:latest
+  port: 8086
+  nodePort: 30083
+  replicas: 1
+  paymentToken: payment-token-default
+  configMapName: payment-service-config

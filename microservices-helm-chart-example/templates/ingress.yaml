@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: {{ .Release.Name }}.localhost
+      http:
+        paths:
+          - path: /customer
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Release.Name }}-customer-service
+                port:
+                  number: 80
+          - path: /order
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Release.Name }}-order-service
+                port:
+                  number: 80
+          - path: /payment
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Release.Name }}-payment-service
+                port:
+                  number: 80

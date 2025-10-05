@@ -1,0 +1,24 @@
+customerService:
+  image: customer-service:1.0
+  port: 8085
+  nodePort: 30092
+  replicas: 1
+  apiKey: cust-api-key-test
+  configMapName: customer-service-config-test
+
+orderService:
+  image: order-service:1.0
+  port: 8084
+  nodePort: 30091
+  replicas: 1
+  dbUsername: myuser
+  dbPassword: mypass
+  configMapName: order-service-config-test
+
+paymentService:
+  image: payment-service:1.0
+  port: 8086
+  nodePort: 30093
+  replicas: 1
+  paymentToken: payment-token-test
+  configMapName: payment-service-config-test

@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-customer-service
+spec:
+  replicas: {{ .Values.customerService.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-customer-service
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-customer-service
+    spec:
+      containers:
+        - name: customer-service
+          image: {{ .Values.customerService.image }}
+          ports:
+            - containerPort: {{ .Values.customerService.port }}
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.customerService.configMapName }}
+          env:
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-customer-payment-secret
+                  key: CUSTOMER_API_KEY
