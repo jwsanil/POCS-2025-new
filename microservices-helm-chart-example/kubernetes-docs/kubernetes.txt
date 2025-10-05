@@ -1,0 +1,280 @@
+
+mvn clean package -DskipTests
+docker build -t order-service:1.0 .
+
+mvn clean package -DskipTests
+docker build -t customer-service:1.0 .
+
+mvn clean package -DskipTests
+docker build -t payment-service:1.0 .
+
+
+kubectl apply -f order-deployment.yaml
+kubectl apply -f customer-deployment.yaml
+kubectl apply -f payment-deployment.yaml
+
+kubectl get pods
+kubectl get svc
+
+
+http://localhost:30081/order       → Order Service
+http://localhost:30082/customer    → Customer Service
+http://localhost:30083/payment     → Payment Service
+
+
+kubectl logs customer-service-6f9dc8bb77-9lg9l
+
+
+configmap:
+kubectl apply -f order-configmap.yaml
+kubectl apply -f customer-configmap.yaml
+kubectl apply -f payment-configmap.yaml
+
+
+
+
+kubectl exec -it customer-service-64f6b687d4-r4b6n -- curl http://localhost:8085/customer
+
+
+testing:
+curl http://localhost:30081/order
+
+
+
+ingress:
+
+
+
+kubectl get pods -n ingress-nginx
+
+curl http://localhost:30082/customer
+curl http://localhost:30083/payment
+
+kubectl get pods
+
+helm install microservices .\microservices-chart-corrected -f .\microservices-chart-corrected\values-test.yaml
+
+
+
+helm uninstall microservices-test
+kubectl delete secret customer-payment-secret
+kubectl delete service customer-service
+kubectl delete ingress microservices-ingress
+
+
+kubectl create namespace dev
+kubectl create namespace test
+
+helm install microservices-dev . -f values-dev.yaml -n dev
+helm install microservices-test . -f values-test.yaml -n test
+
+
+
+helm install microservices-test . -f values-test.yaml
+
+kubectl delete all --all -n dev
+kubectl delete all --all -n test
+
+
+
+
+
+
+
+kubectl logs customer-service-75799cb84-fmzwg
+kubectl logs order-service-5566799dd-8xlmt
+kubectl logs payment-service-845dbcdf85-fqj6h 
+
+
+kubectl rollout restart deployment customer-service
+kubectl rollout restart deployment order-service
+kubectl rollout restart deployment payment-service
+
+kubectl rollout restart deployment payment-service
+
+
+order-service-5566799dd-8xlmt
+
+
+
+ingresss:
+
+ingress install:
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
+
+
+secretes:
+
+kubectl apply -f order-service-secret.yaml
+kubectl apply -f customer-payment-secret.yaml
+
+
+kubectl rollout restart deployment order-service
+kubectl rollout restart deployment customer-service
+kubectl rollout restart deployment payment-service
+
+
+kubectl get secrets
+kubectl describe secret order-service-secret
+
+
+kubectl exec -it payment-service-7984b5df6f-btjfz -- printenv
+
+kubectl exec -it customer-service-757fc7479b-mgsfl -- printenv
+
+kubectl exec -it payment-service-896664bbb-jr42m  -- printenv
+
+order-service-55c6847f79-h8rc6
+
+customer-service-757fc7479b-mgsfl
+
+
+    env:
+      - name: DB_USERNAME
+        valueFrom:
+          secretKeyRef:
+            name: order-service-secret
+            key: DB_USERNAME
+      - name: DB_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: order-service-secret
+            key: DB_PASSWORD
+
+kubectl exec -it <pod-name> -- printenv | grep DB_USERNAME
+kubectl exec -it <pod-name> -- printenv | grep CUSTOMER_API_KEY
+kubectl exec -it payment-service-7984b5df6f-btjfz -- printenv | grep PAYMENT_TOKEN
+
+
+
+
+
+
+
+
+kubectl apply -f ingress.yaml
+
+
+
+curl http://localhost/order
+curl http://localhost/customer
+curl http://microservices-test-payment-service/payment
+
+
+
+
+kubectl delete deployment --all
+
+
+
+helm install microservices ./microservices-helm-chart -f values-dev.yaml
+
+helm install microservices-test ./microservices-helm-chart -f values-test.yaml
+
+
+helm upgrade microservices . -f values-dev.yaml
+
+
+
+
+helm install microservices . -f values-dev.yaml
+
+
+
+
+helm uninstall microservices
+kubectl delete secret customer-payment-secret
+kubectl delete secret order-service-secret
+kubectl delete secret payment-service-secret
+
+
+
+----
+
+kubectl delete service customer-service
+kubectl delete service order-service
+kubectl delete service payment-service
+
+
+# Delete all related Helm releases, secrets, and services in all namespaces
+kubectl get secrets --all-namespaces | Select-String "customer-payment-secret" | ForEach-Object { $ns=($_ -split '\s+')[0]; $name=($_ -split '\s+')[1]; kubectl delete secret $name -n $ns }; kubectl get svc --all-namespaces | Select-String "microservices" | ForEach-Object { $ns=($_ -split '\s+')[0]; $name=($_ -split '\s+')[1]; kubectl delete svc $name -n $ns }; helm list -A | Select-String "microservices" | ForEach-Object { $ns=($_ -split '\s+')[1]; $release=($_ -split '\s+')[0]; helm uninstall $release -n $ns }
+
+
+
+------
+
+delet all at once
+
+# Delete Helm release if partially installed
+helm uninstall microservices
+
+# Delete all microservices services
+kubectl delete svc customer-service order-service payment-service
+
+# Delete all microservices secrets
+kubectl delete secret customer-payment-secret order-service-secret payment-service-secret
+
+# Delete all microservices deployments
+kubectl delete deploy customer-service order-service payment-service
+
+# Delete ingress
+kubectl delete ingress microservices-ingress
+
+
+
+
+helm install microservices ./microservices-helm-chart -f values-dev.yaml
+
+helm install microservices-test ./microservices-helm-chart -f values-test.yaml
+
+
+helm upgrade microservices ./microservices-chart -f values-dev.yaml
+
+
+
+helm uninstall microservices -n default
+helm uninstall microservices-dev -n dev
+helm uninstall microservices-test -n test
+
+
+
+helm install microservices . -f values-dev.yaml
+
+helm install microservices . -f values-test.yaml
+
+helm uninstall microservices -n default
+
+
+
+kubectl logs microservices-test-payment-service-86585b4f98-m5wd7
+
+
+
+kubectl patch svc microservices-test-customer-service --type='json' -p "[{`"op`": `"replace`", `"path`": `"/spec/ports/0/targetPort`", `"value`": 8082}]"
+
+kubectl patch svc microservices-test-order-service --type='json' -p "[{`"op`": `"replace`", `"path`": `"/spec/ports/0/targetPort`", `"value`": 8081}]"
+
+
+kubectl patch svc microservices-test-payment-service --type='json' -p "[{`"op`": `"replace`", `"path`": `"/spec/ports/0/targetPort`", `"value`": 8083}]"
+
+
+verify:
+
+kubectl get svc microservices-test-customer-service -o=jsonpath="{.spec.ports[0].targetPort}"
+kubectl get svc microservices-test-order-service -o=jsonpath="{.spec.ports[0].targetPort}"
+kubectl get svc microservices-test-payment-service -o=jsonpath="{.spec.ports[0].targetPort}"
+
+
+curl http://127.0.0.1:30092/customer
+
+curl http://127.0.0.1:30091/order
+
+curl http://127.0.0.1:30093/payment
+
+
+
+
+
+
+
+
