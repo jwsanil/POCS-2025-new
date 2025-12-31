@@ -1,0 +1,33 @@
+<div style="text-align:center">
+  <h2>Simple Calculator</h2>
+
+  <!-- Number 1 Input -->
+  <div>
+    <label for="num1">Number 1:</label>
+    <input type="number" id="num1" [(ngModel)]="num1" placeholder="Enter number 1" />
+  </div>
+
+  <!-- Number 2 Input -->
+  <div>
+    <label for="num2">Number 2:</label>
+    <input type="number" id="num2" [(ngModel)]="num2" placeholder="Enter number 2" />
+  </div>
+
+  <!-- Buttons for Operations -->
+  <div>
+    <button (click)="add()">Add</button>
+    <button (click)="subtract()">Subtract</button>
+    <button (click)="multiply()">Multiply</button>
+    <button (click)="divide()">Divide</button>
+  </div>
+
+  <!-- Display the Result -->
+  <div *ngIf="result !== null">
+    <h3>Result: {{ result }}</h3>
+  </div>
+
+  <!-- Display the Error Message -->
+  <div *ngIf="errorMessage">
+    <h3 style="color: red;">{{ errorMessage }}</h3>
+  </div>
+</div>
