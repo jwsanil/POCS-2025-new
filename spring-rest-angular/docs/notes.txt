@@ -1,0 +1,74 @@
+Calculator App – Setup & Run Notes
+=================================
+
+Backend – Spring Boot (REST API)
+--------------------------------
+
+1. Open terminal / command prompt
+
+2. Navigate to backend folder:
+   calculator-app-rest-backend
+
+3. Run Spring Boot application:
+   mvn spring-boot:run
+
+4. What this does:
+   - Builds the project using Maven
+   - Starts embedded Tomcat server
+   - REST APIs available at: http://localhost:8080
+
+5. Requirements:
+   - Java JDK (8 / 11 / 17 as per project)
+   - Maven installed and configured
+
+
+Frontend – Angular
+------------------
+
+1. Open terminal / command prompt
+
+2. Navigate to Angular project folder:
+   calculator-app-ui
+
+3. Install required dependencies:
+   npm install
+
+4. Build Angular project:
+   ng build
+
+   - Compiles Angular code
+   - Creates production files in dist/ folder
+
+5. Run Angular development server:
+   ng serve
+
+6. Access application in browser:
+   http://localhost:4200
+
+7. Requirements:
+   - Node.js (LTS version recommended)
+   - Angular CLI installed:
+     npm install -g @angular/cli
+
+
+Backend & Frontend Integration
+------------------------------
+
+- Angular frontend communicates with Spring Boot REST APIs
+- Backend runs on port 8080
+- Frontend runs on port 4200
+- Both applications must be running together
+- Ensure CORS is enabled in Spring Boot if API calls fail
+
+
+Common Issues
+-------------
+
+- Port already in use:
+  Change port or stop running service
+
+- npm install error:
+  Delete node_modules and package-lock.json, then run npm install again
+
+- API not working:
+  Verify backend is running and API URL is correct
